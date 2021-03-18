@@ -152,13 +152,13 @@
         <Item2 Mode="win64" Option="530298961656"/>
       </SessionEnabledMatrixOptions>
     </BuildModes>
-    <Units Count="10">
+    <Units Count="11">
       <Unit0>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="19"/>
         <UsageCount Value="205"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="unit1.pas"/>
@@ -167,7 +167,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <EditorIndex Value="1"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="14"/>
         <CursorPos Y="53"/>
         <UsageCount Value="205"/>
@@ -181,10 +181,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit2"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="14"/>
-        <CursorPos Y="53"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="85"/>
+        <CursorPos X="5" Y="91"/>
         <UsageCount Value="194"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -196,9 +195,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit3"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="25"/>
-        <CursorPos X="2" Y="52"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="32"/>
+        <CursorPos X="2"/>
         <UsageCount Value="81"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -207,7 +206,8 @@
         <Filename Value="unit4.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit4"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="18" Y="61"/>
         <UsageCount Value="80"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -244,6 +244,14 @@
         <TopLine Value="9"/>
         <UsageCount Value="1"/>
       </Unit9>
+      <Unit10>
+        <Filename Value="FileDifference.diff"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="33"/>
+        <CursorPos Y="65"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Diff"/>
+      </Unit10>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>

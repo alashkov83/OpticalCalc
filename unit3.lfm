@@ -1,0 +1,32 @@
+object ShowSchemaForm: TShowSchemaForm
+  Left = 2339
+  Height = 104
+  Top = 248
+  Width = 284
+  BorderStyle = bsSingle
+  Caption = 'ShowSchemaForm'
+  ClientHeight = 104
+  ClientWidth = 284
+  DesignTimePPI = 85
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.6.0'
+  object SLabel: TLabel
+    Left = 8
+    Height = 1
+    Top = 8
+    Width = 1
+    Font.Height = -14
+    Font.Name = 'Courier New'
+    ParentColor = False
+    ParentFont = False
+  end
+  object CloseBut: TButton
+    Left = 104
+    Height = 22
+    Top = 72
+    Width = 66
+    Caption = 'Закрыть'
+    OnClick = CloseButClick
+    TabOrder = 0
+  end
+end

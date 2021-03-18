@@ -1,0 +1,635 @@
+object MainForm: TMainForm
+  Left = 2081
+  Height = 308
+  Top = 399
+  Width = 332
+  BorderStyle = bsSingle
+  Caption = 'Optical Calc v. 2.1'
+  ClientHeight = 287
+  ClientWidth = 332
+  DesignTimePPI = 85
+  Font.CharSet = RUSSIAN_CHARSET
+  Font.Color = clBlack
+  Font.Height = -14
+  Font.Name = 'Symbola'
+  Font.Pitch = fpVariable
+  Menu = MainMenu1
+  Position = poDefaultPosOnly
+  LCLVersion = '2.0.6.0'
+  Visible = True
+  object ev_to_nmBut: TButton
+    Left = 148
+    Height = 22
+    Hint = 'eV->нм'
+    Top = 109
+    Width = 42
+    Caption = '<-'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    OnClick = ev_to_nmButClick
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 6
+  end
+  object nm_to_ev_cmBut: TButton
+    Left = 99
+    Height = 56
+    Hint = 'нм->eV, см^-1'
+    Top = 109
+    Width = 42
+    Caption = '->'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    OnClick = nm_to_ev_cmButClick
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 5
+  end
+  object lambdaTEd: TEdit
+    Left = 10
+    Height = 23
+    Hint = 'Введите число больше нуля'
+    Top = 124
+    Width = 78
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = lambdaTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    Text = '0'
+  end
+  object evTEd: TEdit
+    Left = 204
+    Height = 23
+    Hint = 'Введите число больше нуля'
+    Top = 107
+    Width = 78
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = evTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 8
+    Text = '0'
+  end
+  object Label1: TLabel
+    Left = 10
+    Height = 12
+    Top = 107
+    Width = 27
+    Caption = 'λ, нм'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 290
+    Height = 12
+    Top = 113
+    Width = 15
+    Caption = 'eV'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object lambda_KPBut: TButton
+    Left = 99
+    Height = 53
+    Hint = 'КР длина волны для H2O'
+    Top = 24
+    Width = 42
+    Caption = '->'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    OnClick = lambda_KPButClick
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 1
+  end
+  object lambda_exTEd: TEdit
+    Left = 10
+    Height = 23
+    Hint = 'Введите число в интервале [190..2898]'
+    Top = 24
+    Width = 78
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = lambda_exTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 0
+    Text = '0'
+  end
+  object lambda_max1TEd: TEdit
+    Left = 241
+    Height = 23
+    Top = 24
+    Width = 81
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    ParentFont = False
+    ParentShowHint = False
+    ReadOnly = True
+    ShowHint = True
+    TabOrder = 2
+    Text = '0'
+  end
+  object Label3: TLabel
+    Left = 10
+    Height = 12
+    Top = 10
+    Width = 48
+    Caption = 'λ_Ex, нм'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 241
+    Height = 12
+    Top = 10
+    Width = 57
+    Caption = 'λ_Max, нм'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 102
+    Height = 12
+    Top = 10
+    Width = 91
+    Caption = 'λ_КР     для H2O'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 102
+    Height = 12
+    Top = 91
+    Width = 90
+    Caption = 'нм <-> eV, см^-1'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label7: TLabel
+    Left = 148
+    Height = 12
+    Top = 34
+    Width = 88
+    Caption = 'ν1 = 3450 см^-1'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object lambda_max2TEd: TEdit
+    Left = 241
+    Height = 23
+    Top = 55
+    Width = 81
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    ParentFont = False
+    ParentShowHint = False
+    ReadOnly = True
+    ShowHint = True
+    TabOrder = 3
+    Text = '0'
+  end
+  object Label8: TLabel
+    Left = 290
+    Height = 12
+    Top = 146
+    Width = 31
+    Caption = 'см^-1'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object cmTEd: TEdit
+    Left = 204
+    Height = 23
+    Hint = 'Введите число больше нуля'
+    Top = 140
+    Width = 78
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = cmTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 9
+    Text = '0'
+  end
+  object cm_to_nmBut: TButton
+    Left = 148
+    Height = 25
+    Hint = 'см^-1->нм'
+    Top = 140
+    Width = 42
+    Caption = '<-'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    OnClick = cm_to_nmButClick
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 7
+  end
+  object D_to_TBut: TButton
+    Left = 148
+    Height = 24
+    Hint = 'D->T,%'
+    Top = 187
+    Width = 42
+    Caption = '<-'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    OnClick = D_to_TButClick
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 12
+  end
+  object T_to_DBut: TButton
+    Left = 99
+    Height = 25
+    Hint = 'T,%->D(Abs)'
+    Top = 186
+    Width = 42
+    Caption = '->'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    OnClick = T_to_DButClick
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 11
+  end
+  object AbsTEd: TEdit
+    Left = 204
+    Height = 23
+    Hint = 'Введите число в интервале [0..10]'
+    Top = 186
+    Width = 78
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = AbsTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 13
+    Text = '0'
+  end
+  object TTEd: TEdit
+    Left = 10
+    Height = 23
+    Hint = 'Введите неотрицательное число'
+    Top = 186
+    Width = 78
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = TTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 10
+    Text = '0'
+  end
+  object Label11: TLabel
+    Left = 132
+    Height = 12
+    Top = 172
+    Width = 18
+    Caption = '<->'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label12: TLabel
+    Left = 204
+    Height = 12
+    Top = 172
+    Width = 57
+    Caption = 'D или Abs'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label10: TLabel
+    Left = 10
+    Height = 12
+    Top = 172
+    Width = 23
+    Caption = 'T, %'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label13: TLabel
+    Left = 148
+    Height = 12
+    Top = 62
+    Width = 88
+    Caption = 'ν2 = 1645 см^-1'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object step_calcBut: TButton
+    Left = 192
+    Height = 24
+    Hint = 'D->T,%'
+    Top = 248
+    Width = 34
+    Caption = '->'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    OnClick = step_calcButClick
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 17
+  end
+  object num_stepTEd: TEdit
+    Left = 234
+    Height = 23
+    Hint = 'Введите число в интервале [0..10]'
+    Top = 248
+    Width = 80
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    ParentFont = False
+    ParentShowHint = False
+    ReadOnly = True
+    ShowHint = True
+    TabOrder = 18
+    Text = '0'
+  end
+  object startTEd: TEdit
+    Left = 10
+    Height = 23
+    Hint = 'Введите неотрицательное число'
+    Top = 248
+    Width = 50
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = stepTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 14
+    Text = '0'
+  end
+  object Label15: TLabel
+    Left = 234
+    Height = 12
+    Top = 232
+    Width = 72
+    Caption = 'Число шагов'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label16: TLabel
+    Left = 10
+    Height = 12
+    Top = 232
+    Width = 32
+    Caption = 'Старт'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label14: TLabel
+    Left = 72
+    Height = 12
+    Top = 232
+    Width = 27
+    Caption = 'Стоп'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object stopTEd: TEdit
+    Left = 72
+    Height = 23
+    Hint = 'Введите неотрицательное число'
+    Top = 248
+    Width = 50
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = stepTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 15
+    Text = '0'
+  end
+  object Label17: TLabel
+    Left = 136
+    Height = 12
+    Top = 232
+    Width = 22
+    Caption = 'Шаг'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object stepTEd: TEdit
+    Left = 136
+    Height = 23
+    Hint = 'Введите неотрицательное число'
+    Top = 248
+    Width = 50
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    OnChange = TEditOnChange
+    OnKeyDown = stepTEdKeyDown
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 16
+    Text = '0'
+  end
+  object Label18: TLabel
+    Left = 10
+    Height = 12
+    Top = 216
+    Width = 115
+    Caption = 'Расчёт числа шагов:'
+    Font.CharSet = GREEK_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Symbola'
+    Font.Pitch = fpVariable
+    ParentColor = False
+    ParentFont = False
+  end
+  object MainMenu1: TMainMenu
+    left = 7
+    top = 58002
+    object MenuItem1: TMenuItem
+      Caption = 'Файл'
+      object convertMI: TMenuItem
+        Caption = 'Конвертер'
+        OnClick = convertMIClick
+      end
+      object exitMI: TMenuItem
+        Caption = 'Выход'
+        OnClick = exitMIClick
+      end
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Справка'
+      object aboutMI: TMenuItem
+        Caption = 'О программе'
+        OnClick = aboutMIClick
+      end
+    end
+  end
+  object OpnFileDlg: TOpenDialog
+    DefaultExt = '.csv'
+    Filter = 'CSV|*.csv|Все|*.*'
+    left = 106
+    top = 58002
+  end
+end

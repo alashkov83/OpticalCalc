@@ -1,0 +1,36 @@
+object PrevForm: TPrevForm
+  Left = 2442
+  Height = 373
+  Top = 306
+  Width = 559
+  BorderStyle = bsSingle
+  Caption = 'Предварительный просмотр'
+  ClientHeight = 373
+  ClientWidth = 559
+  DesignTimePPI = 85
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.6.0'
+  object Memo: TMemo
+    Left = 8
+    Height = 320
+    Top = 8
+    Width = 544
+    Font.Height = -14
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
+    ParentFont = False
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+    WordWrap = False
+  end
+  object CloseBut: TButton
+    Left = 256
+    Height = 22
+    Top = 336
+    Width = 66
+    Caption = 'Закрыть'
+    OnClick = CloseButClick
+    TabOrder = 1
+  end
+end

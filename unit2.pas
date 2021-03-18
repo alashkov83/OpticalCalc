@@ -68,7 +68,9 @@ uses
   csvreadwrite,
   Math,
   LCLType,
+  Spin,
   Unit3,
+  Unit5,
   Unit4;
 
 type
@@ -84,6 +86,17 @@ type
 
   TConvertForm = class(TForm)
     AnFBut: TButton;
+    Label4: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    SpinEdit1: TSpinEdit;
+    SpinEdit2: TSpinEdit;
+    SpinEdit3: TSpinEdit;
+    SpinEdit4: TSpinEdit;
+    XCBox: TComboBox;
+    PrevBut: TButton;
     CancelBut: TButton;
     InMesYFld: TEdit;
     Label1: TLabel;
@@ -99,6 +112,7 @@ type
     OKBut: TButton;
     InMesXFld: TEdit;
     OpnFileDlg: TOpenDialog;
+    YCBox: TComboBox;
     YAbsRRBut: TRadioButton;
     SvFileDlg: TSaveDialog;
     XIgnRBut: TRadioButton;
@@ -117,6 +131,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure MenuItem6Click(Sender: TObject);
     procedure OKButClick(Sender: TObject);
+    procedure PrevButClick(Sender: TObject);
   private
     FInName: string;
     InList: XYList;
@@ -131,9 +146,9 @@ type
     procedure checkRadioBtn(var outmesx: byte; var outmesy: byte);
     procedure showMessure(mesx, mesy: byte);
     procedure setRadBtns(mesx, mesy: byte);
-    function convertMes(mesx, mesy, outmesx, outmesy: byte): byte;
+    function convertMes(mesx, mesy, outmesx, outmesy: byte; nstep: integer): byte;
     function writeCSVFile(header: string; mesx, mesy, outmesx, outmesy: byte;
-      list: XYList; filename: string): byte;
+      list: XYList; filename: string; mstream: TMemoryStream): byte;
   public
     constructor Create(app: TComponent; FName: string); reintroduce;
     destructor Destroy; override;
@@ -161,6 +176,8 @@ begin
   InMesY := 0;
   OpnFileDlg.InitialDir := GetCurrentDir;
   SvFileDlg.InitialDir := GetCurrentDir;
+  XCBox.ItemIndex := 0;
+  YCBox.ItemIndex := 0;
   if FInName <> '' then
   begin
     if parseFile(FInName, InList, CSVheader, InMesX, InMesY) <> 0 then
@@ -216,7 +233,7 @@ procedure TConvertForm.MenuItem6Click(Sender: TObject);
 var
   showshchema: TShowSchemaForm;
 begin
-  showshchema := TShowSchemaForm.Create(Application);
+  showshchema := TShowSchemaForm.Create(Self);
   //converter.left := 100;
   //converter.top := 100;
   showshchema.Caption := 'Схема конвертации';
@@ -243,7 +260,7 @@ begin
   begin
     clearList(OutList);
     checkRadioBtn(outmesx, outmesy);
-    if (convertMes(InMesX, InMesY, outmesx, outmesy) = 0) then
+    if (convertMes(InMesX, InMesY, outmesx, outmesy, 0) = 0) then
     begin
       ShowInfo('Преобразование прошло успешно!');
     end
@@ -255,11 +272,45 @@ begin
     if SvFileDlg.Execute then
     begin
       if writeCSVFile(CSVHeader, InMesX, InMesY, outmesx, outmesy,
-        OutList, SvFileDlg.Filename) = 0 then
+        OutList, SvFileDlg.Filename, nil) = 0 then
       begin
         ShowInfo('Файл ' + SvFileDlg.Filename +
           ' успешно сохранён!');
       end;
+    end;
+  end;
+end;
+
+procedure TConvertForm.PrevButClick(Sender: TObject);
+var
+  mstream: TMemoryStream;
+  showprev: TPrevForm;
+  outmesx, outmesy: byte;
+begin
+  mstream := nil;
+  outmesx := 0;
+  outmesy := 0;
+  if InList = nil then
+  begin
+    ShowError('Cписок входных данных пуст!');
+  end
+  else
+  begin
+    clearList(OutList);
+    checkRadioBtn(outmesx, outmesy);
+    if (convertMes(InMesX, InMesY, outmesx, outmesy, 10) <> 0) then
+      ShowWarning('Во время преобразования были ошибки!');
+    mstream := TMemoryStream.Create;
+    if mstream <> nil then
+    begin
+      if writeCSVFile(CSVHeader, InMesX, InMesY, outmesx, outmesy,
+        OutList, '', mstream) = 0 then
+      begin
+        showprev := TPrevForm.Create(Self, mstream);
+        showprev.ShowModal;
+        showprev.Free; //иначе будет утечка памяти
+      end;
+    mstream.Free;
     end;
   end;
 end;
@@ -471,15 +522,18 @@ begin
     InMesYFld.Text := ymes[mesy];
 end;
 
-function TConvertForm.convertMes(mesx, mesy, outmesx, outmesy: byte): byte;
+function TConvertForm.convertMes(mesx, mesy, outmesx, outmesy: byte;
+  nstep: integer): byte;
 var
   err: byte;
+  i: integer;
   xin, yin, xout, yout: double;
   tmplist: XYList;
 begin
+  i := 0;
   err := 0;
   tmplist := InList;
-  while tmplist <> nil do
+  while (tmplist <> nil) and ((nstep = 0) or ((nstep <> 0) and (i < nstep))) do
   begin
     xin := tmplist^.X;
     yin := tmplist^.Y;
@@ -731,6 +785,7 @@ begin
     end;
     addElemList(OutList, xout, yout);
     tmplist := tmplist^.Next;
+    Inc(i);
   end;
   Result := err;
 end;
@@ -760,7 +815,7 @@ begin
 end;
 
 function TConvertForm.writeCSVFile(header: string; mesx, mesy, outmesx, outmesy: byte;
-  list: XYList; filename: string): byte;
+  list: XYList; filename: string; mstream: TMemoryStream): byte;
 var
   FileStream: TFileStream;
   Builder: TCSVBuilder;
@@ -782,11 +837,15 @@ begin
   else
     resy := outmesy;
   Builder := TCSVBuilder.Create;
-  FileStream := TFileStream.Create(filename, fmCreate + fmOpenWrite + fmShareDenyWrite);
+  if mstream = nil then
+    FileStream := TFileStream.Create(filename, fmCreate + fmOpenWrite + fmShareDenyWrite);
   try
     try
       Builder.Delimiter := ',';
-      Builder.SetOutput(FileStream);
+      if mstream = nil then
+        Builder.SetOutput(FileStream)
+      else
+        Builder.SetOutput(mstream);
       Builder.ResetBuilder;
       Builder.AppendCell(header);
       Builder.AppendCell('');
@@ -840,7 +899,7 @@ begin
     end;
   finally
     Builder.Free;
-    FileStream.Free;
+    if mstream = nil then FileStream.Free;
   end;
 end;
 

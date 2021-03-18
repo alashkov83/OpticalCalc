@@ -37,9 +37,6 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <LaunchingApplication Use="True" PathPlusParams="\usr\bin\wine $(TargetCmdLine)"/>
-      </local>
       <FormatVersion Value="2"/>
       <Modes Count="2">
         <Mode0 Name="default"/>
@@ -55,7 +52,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -89,6 +86,14 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit4"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="unit5.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="PrevForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit5"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

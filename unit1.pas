@@ -190,7 +190,7 @@ var
   Form: TForm;
 
 begin
-  Form := Application.FindComponent('ConvertForm') as TForm;
+  Form := Self.FindComponent('ConvertForm') as TForm;
   if Assigned(Form) then
   begin
     if Form.CanFocus then
@@ -201,7 +201,7 @@ begin
     //can't find it
     OpnFileDlg.InitialDir := GetCurrentDir;
     if OpnFileDlg.Execute then
-      (TConvertForm.Create(Application, OpnFileDlg.Filename)).Show;
+      (TConvertForm.Create(Self, OpnFileDlg.Filename)).Show;
   end;
 end;
 

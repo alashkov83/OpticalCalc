@@ -76,7 +76,6 @@ type
 
   end;
 
-
 implementation
 
 {$R *.lfm}

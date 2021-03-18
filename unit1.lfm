@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 2081
+  Left = 2040
   Height = 308
-  Top = 399
+  Top = 405
   Width = 332
   BorderStyle = bsSingle
   Caption = 'Optical Calc v. 2.1'
@@ -519,7 +519,7 @@ object MainForm: TMainForm
     Font.CharSet = GREEK_CHARSET
     Font.Color = clBlack
     Font.Height = -12
-    Font.Name = 'Symbola'
+    Font.Name = 'Sans'
     Font.Pitch = fpVariable
     ParentColor = False
     ParentFont = False

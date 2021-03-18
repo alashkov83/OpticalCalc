@@ -60,6 +60,7 @@
 # Delphi history and backups
 __history/
 __recovery/
+backup/
 *.~*
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
@@ -67,3 +68,20 @@ __recovery/
 
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
+
+# user define
+
+lib/
+OpticalCalc
+OpticalCalc.dbg
+OpticalCalc.upx
+README.md
+unit1.lfm
+unit1.pas
+unit2.lfm
+unit2.pas
+unit3.lfm
+unit3.pas
+unit4.pas
+upx
+

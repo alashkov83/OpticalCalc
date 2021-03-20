@@ -35,11 +35,11 @@ begin
   Close;
 end;
 
-  constructor TPrevForm.Create(app: TComponent; mstream: TMemoryStream);
-  begin
-    inherited Create(app);
-    LoadMemoFromMemoryStream(Memo, mstream);
-  end;
+constructor TPrevForm.Create(app: TComponent; mstream: TMemoryStream);
+begin
+  inherited Create(app);
+  LoadMemoFromMemoryStream(Memo, mstream);
+end;
 
 end.
 

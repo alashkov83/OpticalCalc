@@ -452,7 +452,10 @@ begin
     if (T > 0.0) then
     begin
       D_tmp := -1.0 * Log10(T / 100);
-      if D_tmp = -0.0 then Str(0.0: 0: 0, s) else Str(D_tmp: 0: 5, s);
+      if D_tmp = -0.0 then
+        Str(0.0: 0: 0, s)
+      else
+        Str(D_tmp: 0: 5, s);
       AbsTEd.Text := s;
     end
     else if (T = 0.0) then

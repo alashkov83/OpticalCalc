@@ -91,10 +91,10 @@ type
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
-    SpinEdit1: TSpinEdit;
-    SpinEdit2: TSpinEdit;
-    SpinEdit3: TSpinEdit;
-    SpinEdit4: TSpinEdit;
+    DigXSEdt: TSpinEdit;
+    PrecXSEdt: TSpinEdit;
+    PrecYSEdt: TSpinEdit;
+    DigYSEdt: TSpinEdit;
     XCBox: TComboBox;
     PrevBut: TButton;
     CancelBut: TButton;
@@ -132,6 +132,7 @@ type
     procedure MenuItem6Click(Sender: TObject);
     procedure OKButClick(Sender: TObject);
     procedure PrevButClick(Sender: TObject);
+//    procedure ChangeFormatParams(Sender: TObject);
   private
     FInName: string;
     InList: XYList;
@@ -149,6 +150,7 @@ type
     function convertMes(mesx, mesy, outmesx, outmesy: byte; nstep: integer): byte;
     function writeCSVFile(header: string; mesx, mesy, outmesx, outmesy: byte;
       list: XYList; filename: string; mstream: TMemoryStream): byte;
+    function FormatVal(val: extended; format, prec, dig: integer): string;
   public
     constructor Create(app: TComponent; FName: string); reintroduce;
     destructor Destroy; override;
@@ -310,10 +312,322 @@ begin
         showprev.ShowModal;
         showprev.Free; //иначе будет утечка памяти
       end;
-    mstream.Free;
+      mstream.Free;
     end;
   end;
 end;
+
+//procedure ChangeFormatParams(Sender: TObject);
+//var
+//  formatx, formaty, digx, digy, precx, precy: integer;
+//begin
+//  formatx := XCBox.ItemIndex;
+//  formaty := YCBox.ItemIndex;
+//  if XIgnRBut.Checked then
+//  begin
+//     case formatx of
+//       0:
+//       case InMesX of
+//         0:
+//         begin
+//
+//         end;
+//         1:
+//         begin
+//
+//         end;
+//         2:
+//         begin
+//
+//         end;
+//         3:
+//         begin
+//
+//         end;
+//         4:
+//         begin
+//
+//         end;
+//       end:
+//       1:
+//       case InMesX of
+//         0:
+//         begin
+//
+//         end;
+//         1:
+//         begin
+//
+//         end;
+//         2:
+//         begin
+//
+//         end;
+//         3:
+//         begin
+//
+//         end;
+//         4:
+//         begin
+//
+//         end;
+//       end;
+//       2:
+//       case InMesX of
+//         0:
+//         begin
+//
+//         end;
+//         1:
+//         begin
+//
+//         end;
+//         2:
+//         begin
+//
+//         end;
+//         3:
+//         begin
+//
+//         end;
+//         4:
+//         begin
+//
+//         end;
+//       end:
+//     end;
+//  end
+//  else if XNmRBut.Checked then
+//  begin
+//    case formatx of
+//      0:
+//      begin
+//        precx := 4;
+//        digx := 1;
+//      end;
+//      1:
+//      begin
+//
+//      end;
+//      2:
+//      begin
+//        precx := 6;
+//        digx := 1;
+//      end;
+//    end;
+//  end
+//  else if XCmRBut.Checked then
+//  begin
+//    case formatx of
+//      0:
+//      begin
+//
+//      end;
+//      1:
+//      begin
+//
+//      end;
+//      2:
+//      begin
+//
+//      end;
+//    end;
+//  end
+//  else if XEVRBut.Checked then
+//  begin
+//    case formatx of
+//      0:
+//      begin
+//
+//      end;
+//      1:
+//      begin
+//
+//      end;
+//      2:
+//      begin
+//
+//      end;
+//    end;
+//  end;
+//  if YIgnRBut.Checked then
+//  begin
+//    case formaty of
+//      0:
+//      case InMesY of
+//        0:
+//        begin
+//
+//        end;
+//        1:
+//        begin
+//
+//        end;
+//        2:
+//        begin
+//
+//        end;
+//        3:
+//        begin
+//
+//        end;
+//        4:
+//        begin
+//
+//        end;
+//        5:
+//        begin
+//
+//        end;
+//      end:
+//      1:
+//      case InMesY of
+//        0:
+//        begin
+//
+//        end;
+//        1:
+//        begin
+//
+//        end;
+//        2:
+//        begin
+//
+//        end;
+//        3:
+//        begin
+//
+//        end;
+//        4:
+//        begin
+//
+//        end;
+//        5:
+//        begin
+//
+//        end;
+//      end;
+//      2:
+//      case InMesY of
+//        0:
+//        begin
+//
+//        end;
+//        1:
+//        begin
+//
+//        end;
+//        2:
+//        begin
+//
+//        end;
+//        3:
+//        begin
+//
+//        end;
+//        4:
+//        begin
+//
+//        end;
+//        5:
+//        begin
+//
+//        end;
+//      end;
+//    end;
+//  end
+//  else if YTRBut.Checked then
+//  begin
+//    case formaty of
+//     0:
+//     begin
+//
+//     end;
+//     1:
+//     begin
+//
+//     end;
+//     2:
+//     begin
+//
+//     end;
+//   end;
+//  end
+//  else if YDRBut.Checked then
+//  begin
+//    case formaty of
+//     0:
+//     begin
+//
+//     end;
+//     1:
+//     begin
+//
+//     end;
+//     2:
+//     begin
+//
+//     end;
+//   end;
+//  end
+//  else if YRRBut.Checked then
+//  begin
+//    case formaty of
+//     0:
+//     begin
+//
+//     end;
+//     1:
+//     begin
+//
+//     end;
+//     2:
+//     begin
+//
+//     end;
+//   end;
+//  end
+//  else if YFrRbut.Checked then
+//  begin
+//    case formaty of
+//     0:
+//     begin
+//
+//     end;
+//     1:
+//     begin
+//
+//     end;
+//     2:
+//     begin
+//
+//     end;
+//   end;
+//  end
+//  else if YAbsRRBut.Checked then
+//  begin
+//    case formaty of
+//     0:
+//     begin
+//
+//     end;
+//     1:
+//     begin
+//
+//     end;
+//     2:
+//     begin
+//
+//     end;
+//   end;
+//  end;
+//  PrecXSEdt.Value := precx;
+//  PrecYSEdt.Value := precy;
+//  DigXSEdt.Value := digx;
+//  DigYSEdt.Value := digy;
+//  if formatx = 2 then DigXSEdt.MaxValue := 4 else DigXSEdt.MaxValue := 12;
+//  if formaty = 2 then DigYSEdt.MaxValue := 4 else DigYSEdt.MaxValue := 12;
+//end;
 
 procedure TConvertForm.addElemList(var list: XYList; x, y: extended);
 var
@@ -820,6 +1134,7 @@ var
   FileStream: TFileStream;
   Builder: TCSVBuilder;
   resx, resy: byte;
+  formatx, formaty, precx, precy, digx, digy: integer;
   s: string;
   tmplist: XYList;
   x, y: extended;
@@ -836,9 +1151,16 @@ begin
     resy := mesy
   else
     resy := outmesy;
+  formatx := XCBox.ItemIndex;
+  formaty := YCBox.ItemIndex;
+  precx := PrecXSEdt.Value;
+  precy := PrecYSEdt.Value;
+  digx := DigXSEdt.Value;
+  digy := DigYSEdt.Value;
   Builder := TCSVBuilder.Create;
   if mstream = nil then
-    FileStream := TFileStream.Create(filename, fmCreate + fmOpenWrite + fmShareDenyWrite);
+    FileStream := TFileStream.Create(filename, fmCreate + fmOpenWrite +
+      fmShareDenyWrite);
   try
     try
       Builder.Delimiter := ',';
@@ -867,22 +1189,9 @@ begin
       begin
         x := tmplist^.X;
         y := tmplist^.Y;
-        case resx of
-          0: Str(x, s);
-          1: Str(x: 0: 1, s);
-          2: Str(x: 0: 1, s);
-          3: Str(x: 0: 4, s);
-          4: Str(x: 0: 12, s);
-        end;
+        s := FormatVal(x, formatx, precx, digx);
         Builder.AppendCell(s);
-        case resy of
-          0: Str(y, s);
-          1: Str(y: 0: 10, s);
-          2: Str(y: 0: 10, s);
-          3: Str(y: 0: 8, s);
-          4: Str(y: 0: 10, s);
-          5: Str(y: 0: 10, s);
-        end;
+        s := FormatVal(y, formaty, precy, digy);
         Builder.AppendCell(s);
         Builder.AppendCell('');
         Builder.AppendRow;
@@ -899,8 +1208,21 @@ begin
     end;
   finally
     Builder.Free;
-    if mstream = nil then FileStream.Free;
+    if mstream = nil then
+      FileStream.Free;
   end;
+end;
+
+function TConvertForm.FormatVal(val: extended; format, prec, dig: integer): string;
+var
+  s: string;
+begin
+  case format of
+    0: s := FloatToStrF(val, ffGeneral, prec, dig);
+    1: s := FloatToStrF(val, ffFixed, prec, dig);
+    2: s := FloatToStrF(val, ffExponent, prec, dig);
+  end;
+  Result := s;
 end;
 
 end.

@@ -1,20 +1,21 @@
 object PrevForm: TPrevForm
-  Left = 735
-  Height = 421
-  Top = 0
-  Width = 631
+  Left = 2167
+  Height = 373
+  Top = 314
+  Width = 559
   BorderStyle = bsSingle
   Caption = 'Предварительный просмотр'
-  ClientHeight = 421
-  ClientWidth = 631
+  ClientHeight = 373
+  ClientWidth = 559
+  DesignTimePPI = 85
   Position = poOwnerFormCenter
   LCLVersion = '2.0.6.0'
   object Memo: TMemo
-    Left = 9
-    Height = 361
-    Top = 9
-    Width = 614
-    Font.Height = -16
+    Left = 8
+    Height = 320
+    Top = 8
+    Width = 544
+    Font.Height = -14
     Font.Name = 'Courier New'
     Font.Style = [fsBold]
     ParentFont = False
@@ -24,10 +25,10 @@ object PrevForm: TPrevForm
     WordWrap = False
   end
   object CloseBut: TButton
-    Left = 289
-    Height = 25
-    Top = 379
-    Width = 75
+    Left = 256
+    Height = 22
+    Top = 336
+    Width = 66
     Caption = 'Закрыть'
     OnClick = CloseButClick
     ParentFont = False

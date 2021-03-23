@@ -92,6 +92,7 @@ type
     Label8: TLabel;
     Label9: TLabel;
     DigXSEdt: TSpinEdit;
+    MenuItem7: TMenuItem;
     PrecXSEdt: TSpinEdit;
     PrecYSEdt: TSpinEdit;
     DigYSEdt: TSpinEdit;
@@ -130,9 +131,10 @@ type
     procedure CancelButClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure MenuItem6Click(Sender: TObject);
+    procedure MenuItem7Click(Sender: TObject);
     procedure OKButClick(Sender: TObject);
     procedure PrevButClick(Sender: TObject);
-//    procedure ChangeFormatParams(Sender: TObject);
+    procedure ChangeFormatParams(Sender: TObject);
   private
     FInName: string;
     InList: XYList;
@@ -180,6 +182,7 @@ begin
   SvFileDlg.InitialDir := GetCurrentDir;
   XCBox.ItemIndex := 0;
   YCBox.ItemIndex := 0;
+  ChangeFormatParams(nil);
   if FInName <> '' then
   begin
     if parseFile(FInName, InList, CSVheader, InMesX, InMesY) <> 0 then
@@ -236,15 +239,26 @@ var
   showshchema: TShowSchemaForm;
 begin
   showshchema := TShowSchemaForm.Create(Self);
-  //converter.left := 100;
-  //converter.top := 100;
-  showshchema.Caption := 'Схема конвертации';
+  showshchema.Caption := 'Операции конвертации';
   showshchema.SLabel.Caption :=
     '                  /-> F(R)' + #10 + 'Abs <-> %T = %R <-' + #10 +
     '                  \-> Absolute_%R';
 
   showshchema.ShowModal;
   showshchema.Free; //иначе будет утечка памяти
+end;
+
+procedure TConvertForm.MenuItem7Click(Sender: TObject);
+var
+  formathelp: TPrevForm;
+  s: string;
+
+begin
+  s :=
+    'Общий - форматирует число в соответствии с фиксированной или экспоненциальной нотацией:' + #10 + 'по возможности применяется фиксированная нотация. Ведущие нули удаляются,' + #10 + 'и если перед десятичной точкой нет цифр, символ разделителя также удаляется.' + #10 + 'Формат экспоненты используется, если мантисса числа является слишком большой' + #10 + 'для указанного параметра "Точность" или число < 0.00001. В этом случае, параметр "Разряды"' + #10 + 'определяет минимальное число показываемых цифр экспоненты.' + #10 + #10 + 'Фиксированный - число форматируется в соответствии с фиксированной десятичной нотацией.' + #10 + 'Как минимум одна цифра всегда присутствует перед десятичным разделителем.' + #10 + 'Отображает кол-во цифр перед десятичной точкой, задаётся параметром "Точность",' + #10 + 'а после точки - параметром "Разряды". Если слева от десятичного разделителя требуется' + #10 + 'более чем "Точность" цифр, формат автоматически меняется на экспоненциальный.' + #10 + #10 + 'Экспонента - форматирует число в соответствии с научной нотацией.' + #10 + 'Всегда присутствует минимум одна цифра перед десятичным разделителем,' + #10 + 'параметр "Точность" определяет общее число форматируемых цифр мантиссы.' + #10 + 'Параметр "Разряды" определяет минимальное количество цифр в экспоненте (1-4).' + #10 + 'Экспонента всегда начинается со знака "плюс" или "минус".';
+  formathelp := TPrevForm.Create(Self, 'Формат чисел', s);
+  formathelp.ShowModal;
+  formathelp.Free; //иначе будет утечка памяти
 end;
 
 
@@ -308,7 +322,8 @@ begin
       if writeCSVFile(CSVHeader, InMesX, InMesY, outmesx, outmesy,
         OutList, '', mstream) = 0 then
       begin
-        showprev := TPrevForm.Create(Self, mstream);
+        showprev := TPrevForm.Create(Self,
+          'Предварительный просмотр', mstream);
         showprev.ShowModal;
         showprev.Free; //иначе будет утечка памяти
       end;
@@ -317,317 +332,294 @@ begin
   end;
 end;
 
-//procedure ChangeFormatParams(Sender: TObject);
-//var
-//  formatx, formaty, digx, digy, precx, precy: integer;
-//begin
-//  formatx := XCBox.ItemIndex;
-//  formaty := YCBox.ItemIndex;
-//  if XIgnRBut.Checked then
-//  begin
-//     case formatx of
-//       0:
-//       case InMesX of
-//         0:
-//         begin
-//
-//         end;
-//         1:
-//         begin
-//
-//         end;
-//         2:
-//         begin
-//
-//         end;
-//         3:
-//         begin
-//
-//         end;
-//         4:
-//         begin
-//
-//         end;
-//       end:
-//       1:
-//       case InMesX of
-//         0:
-//         begin
-//
-//         end;
-//         1:
-//         begin
-//
-//         end;
-//         2:
-//         begin
-//
-//         end;
-//         3:
-//         begin
-//
-//         end;
-//         4:
-//         begin
-//
-//         end;
-//       end;
-//       2:
-//       case InMesX of
-//         0:
-//         begin
-//
-//         end;
-//         1:
-//         begin
-//
-//         end;
-//         2:
-//         begin
-//
-//         end;
-//         3:
-//         begin
-//
-//         end;
-//         4:
-//         begin
-//
-//         end;
-//       end:
-//     end;
-//  end
-//  else if XNmRBut.Checked then
-//  begin
-//    case formatx of
-//      0:
-//      begin
-//        precx := 4;
-//        digx := 1;
-//      end;
-//      1:
-//      begin
-//
-//      end;
-//      2:
-//      begin
-//        precx := 6;
-//        digx := 1;
-//      end;
-//    end;
-//  end
-//  else if XCmRBut.Checked then
-//  begin
-//    case formatx of
-//      0:
-//      begin
-//
-//      end;
-//      1:
-//      begin
-//
-//      end;
-//      2:
-//      begin
-//
-//      end;
-//    end;
-//  end
-//  else if XEVRBut.Checked then
-//  begin
-//    case formatx of
-//      0:
-//      begin
-//
-//      end;
-//      1:
-//      begin
-//
-//      end;
-//      2:
-//      begin
-//
-//      end;
-//    end;
-//  end;
-//  if YIgnRBut.Checked then
-//  begin
-//    case formaty of
-//      0:
-//      case InMesY of
-//        0:
-//        begin
-//
-//        end;
-//        1:
-//        begin
-//
-//        end;
-//        2:
-//        begin
-//
-//        end;
-//        3:
-//        begin
-//
-//        end;
-//        4:
-//        begin
-//
-//        end;
-//        5:
-//        begin
-//
-//        end;
-//      end:
-//      1:
-//      case InMesY of
-//        0:
-//        begin
-//
-//        end;
-//        1:
-//        begin
-//
-//        end;
-//        2:
-//        begin
-//
-//        end;
-//        3:
-//        begin
-//
-//        end;
-//        4:
-//        begin
-//
-//        end;
-//        5:
-//        begin
-//
-//        end;
-//      end;
-//      2:
-//      case InMesY of
-//        0:
-//        begin
-//
-//        end;
-//        1:
-//        begin
-//
-//        end;
-//        2:
-//        begin
-//
-//        end;
-//        3:
-//        begin
-//
-//        end;
-//        4:
-//        begin
-//
-//        end;
-//        5:
-//        begin
-//
-//        end;
-//      end;
-//    end;
-//  end
-//  else if YTRBut.Checked then
-//  begin
-//    case formaty of
-//     0:
-//     begin
-//
-//     end;
-//     1:
-//     begin
-//
-//     end;
-//     2:
-//     begin
-//
-//     end;
-//   end;
-//  end
-//  else if YDRBut.Checked then
-//  begin
-//    case formaty of
-//     0:
-//     begin
-//
-//     end;
-//     1:
-//     begin
-//
-//     end;
-//     2:
-//     begin
-//
-//     end;
-//   end;
-//  end
-//  else if YRRBut.Checked then
-//  begin
-//    case formaty of
-//     0:
-//     begin
-//
-//     end;
-//     1:
-//     begin
-//
-//     end;
-//     2:
-//     begin
-//
-//     end;
-//   end;
-//  end
-//  else if YFrRbut.Checked then
-//  begin
-//    case formaty of
-//     0:
-//     begin
-//
-//     end;
-//     1:
-//     begin
-//
-//     end;
-//     2:
-//     begin
-//
-//     end;
-//   end;
-//  end
-//  else if YAbsRRBut.Checked then
-//  begin
-//    case formaty of
-//     0:
-//     begin
-//
-//     end;
-//     1:
-//     begin
-//
-//     end;
-//     2:
-//     begin
-//
-//     end;
-//   end;
-//  end;
-//  PrecXSEdt.Value := precx;
-//  PrecYSEdt.Value := precy;
-//  DigXSEdt.Value := digx;
-//  DigYSEdt.Value := digy;
-//  if formatx = 2 then DigXSEdt.MaxValue := 4 else DigXSEdt.MaxValue := 12;
-//  if formaty = 2 then DigYSEdt.MaxValue := 4 else DigYSEdt.MaxValue := 12;
-//end;
+procedure TConvertForm.ChangeFormatParams(Sender: TObject);
+var
+  formatx, formaty, digx, digy, precx, precy: integer;
+begin
+  formatx := XCBox.ItemIndex;
+  formaty := YCBox.ItemIndex;
+  digx := 1;
+  digy := 1;
+  if XIgnRBut.Checked then
+  begin
+    case formatx of
+      0: precx := 6;
+      1:
+        case InMesX of
+          0:
+          begin
+            precx := 6;
+            digx := 5;
+          end;
+          1:
+          begin
+            precx := 6;
+            digx := 2;
+          end;
+          2:
+          begin
+            precx := 5;
+            digx := 2;
+          end;
+          3:
+          begin
+            precx := 2;
+            digx := 4;
+          end;
+          4:
+          begin
+            precx := 3;
+            digx := 5;
+          end;
+        end;
+      2:
+        case InMesX of
+          0:
+          begin
+            precx := 6;
+          end;
+          1:
+          begin
+            precx := 3;
+          end;
+          2:
+          begin
+            precx := 3;
+          end;
+          3:
+          begin
+            precx := 6;
+          end;
+          4:
+          begin
+            precx := 6;
+          end;
+        end;
+    end;
+  end
+  else if XNmRBut.Checked then
+  begin
+    case formatx of
+      0:
+      begin
+        precx := 6;
+      end;
+      1:
+      begin
+        precx := 4;
+        digx := 2;
+      end;
+      2:
+      begin
+        precx := 3;
+      end;
+    end;
+  end
+  else if XCmRBut.Checked then
+  begin
+    case formatx of
+      0:
+      begin
+        precx := 6;
+      end;
+      1:
+      begin
+        precx := 5;
+        digx := 2;
+      end;
+      2:
+      begin
+        precx := 3;
+      end;
+    end;
+  end
+  else if XEVRBut.Checked then
+  begin
+    case formatx of
+      0:
+      begin
+        precx := 6;
+      end;
+      1:
+      begin
+        precx := 2;
+        digx := 4;
+      end;
+      2:
+      begin
+        precx := 6;
+      end;
+    end;
+  end;
+  if YIgnRBut.Checked then
+  begin
+    case formaty of
+      0: precy := 12;
+      1:
+        case InMesY of
+          0:
+          begin
+            precy := 3;
+            digy := 10;
+          end;
+          1:
+          begin
+            precy := 3;
+            digy := 10;
+          end;
+          2:
+          begin
+            precy := 2;
+            digy := 10;
+          end;
+          3:
+          begin
+            precy := 2;
+            digy := 8;
+          end;
+          4:
+          begin
+            precy := 1;
+            digy := 10;
+          end;
+          5:
+          begin
+            precy := 2;
+            digy := 8;
+          end;
+        end;
+      2:
+        case InMesY of
+          0:
+          begin
+            precy := 12;
+          end;
+          1:
+          begin
+            precy := 12;
+          end;
+          2:
+          begin
+            precy := 12;
+          end;
+          3:
+          begin
+            precy := 10;
+          end;
+          4:
+          begin
+            precy := 11;
+          end;
+          5:
+          begin
+            precy := 10;
+          end;
+        end;
+    end;
+  end
+  else if YTRBut.Checked then
+  begin
+    case formaty of
+      0:
+      begin
+        precy := 12;
+      end;
+      1:
+      begin
+        precy := 3;
+        digy := 10;
+      end;
+      2:
+      begin
+        precy := 12;
+      end;
+    end;
+  end
+  else if YDRBut.Checked then
+  begin
+    case formaty of
+      0:
+      begin
+        precy := 12;
+      end;
+      1:
+      begin
+        precy := 2;
+        digy := 10;
+      end;
+      2:
+      begin
+        precy := 12;
+      end;
+    end;
+  end
+  else if YRRBut.Checked then
+  begin
+    case formaty of
+      0:
+      begin
+        precy := 12;
+      end;
+      1:
+      begin
+        precy := 2;
+        digy := 8;
+      end;
+      2:
+      begin
+        precy := 10;
+      end;
+    end;
+  end
+  else if YFrRbut.Checked then
+  begin
+    case formaty of
+      0:
+      begin
+        precy := 11;
+      end;
+      1:
+      begin
+        precy := 1;
+        digy := 10;
+      end;
+      2:
+      begin
+        precx := 11;
+      end;
+    end;
+  end
+  else if YAbsRRBut.Checked then
+  begin
+    case formaty of
+      0:
+      begin
+        precy := 12;
+      end;
+      1:
+      begin
+        precy := 2;
+        digy := 8;
+      end;
+      2:
+      begin
+        precy := 10;
+      end;
+    end;
+  end;
+  PrecXSEdt.Value := precx;
+  PrecYSEdt.Value := precy;
+  DigXSEdt.Value := digx;
+  DigYSEdt.Value := digy;
+  if formatx = 2 then
+    DigXSEdt.MaxValue := 4
+  else
+    DigXSEdt.MaxValue := 12;
+  if formaty = 2 then
+    DigYSEdt.MaxValue := 4
+  else
+    DigYSEdt.MaxValue := 12;
+end;
 
 procedure TConvertForm.addElemList(var list: XYList; x, y: extended);
 var

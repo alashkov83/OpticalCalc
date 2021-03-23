@@ -379,7 +379,7 @@ end;
 procedure TMainForm.step_calcButClick(Sender: TObject);
 var
   err1, err2, err3: integer;
-  start, stop, step: extended;
+  start, stop, step: currency;
   s: string;
 begin
   if (startTEd.Text <> '') and (stopTEd.Text <> '') and (stepTEd.Text <> '') then

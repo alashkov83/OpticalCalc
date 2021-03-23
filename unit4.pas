@@ -72,7 +72,6 @@ procedure ShowError(message: string);
 procedure ShowWarning(message: string);
 procedure ShowInfo(message: string);
 procedure ShowAbout;
-procedure LoadMemoFromMemoryStream(Memo: TMemo; Stream: TMemoryStream);
 
 implementation
 
@@ -96,26 +95,6 @@ procedure ShowAbout;
 begin
   Application.MessageBox(PChar(s_about), 'О программе',
     MB_OK + MB_ICONINFORMATION);
-end;
-
-procedure LoadMemoFromMemoryStream(Memo: TMemo; Stream: TMemoryStream);
-var
-  p, q, r: PChar;
-begin
-  p := Stream.Memory;
-  q := p + Stream.Size;// -1; fixed by Shay Horovitz
-  r := p;
-  while (p <> nil) and (p < q) do
-  begin
-    while (p < q) and (p^ <> #13) and (p^ <> #10) do
-      Inc(p);
-    Memo.Lines.Add(Copy(StrPas(r), 1, p - r));
-    if (p[0] = #13) and (p[1] = #10) then
-      Inc(p, 2)
-    else
-      Inc(p);
-    r := p;
-  end;
 end;
 
 end.

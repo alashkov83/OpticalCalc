@@ -1,7 +1,7 @@
 object PrevForm: TPrevForm
-  Left = 2167
+  Left = 2168
   Height = 373
-  Top = 314
+  Top = 340
   Width = 559
   BorderStyle = bsSingle
   Caption = 'Предварительный просмотр'

@@ -1,4 +1,4 @@
-unit Unit5;
+unit ViewMemoUnit;
 
 {$mode objfpc}{$H+}
 
@@ -9,8 +9,7 @@ uses
   Forms,
   SysUtils,
   Controls,
-  StdCtrls,
-  Unit4;
+  StdCtrls;
 
 type
 

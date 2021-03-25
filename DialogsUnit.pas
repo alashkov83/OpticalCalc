@@ -51,41 +51,46 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-unit Unit3;
+unit DialogsUnit;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes,
   Forms,
-  StdCtrls;
+  Classes,
+  StdCtrls,
+  LCLType,
+  StringsUnit;
 
-type
-
-  { TShowSchemaForm }
-
-  TShowSchemaForm = class(TForm)
-    CloseBut: TButton;
-    SLabel: TLabel;
-    procedure CloseButClick(Sender: TObject);
-  private
-
-  public
-
-  end;
+procedure ShowError(message: string);
+procedure ShowWarning(message: string);
+procedure ShowInfo(message: string);
+procedure ShowAbout;
 
 implementation
 
-{$R *.lfm}
-
-{ TShowSchemaForm }
-
-procedure TShowSchemaForm.CloseButClick(Sender: TObject);
+procedure ShowError(message: string);
 begin
-  Close;
+  Application.MessageBox(PChar(message), PChar(ERR_TEXT), MB_OK + MB_ICONERROR);
+end;
+
+procedure ShowWarning(message: string);
+begin
+  Application.MessageBox(PChar(message), PChar(WARN_TEXT), MB_OK + MB_ICONWARNING);
+end;
+
+procedure ShowInfo(message: string);
+begin
+  Application.MessageBox(PChar(message), PChar(INFO_TEXT),
+    MB_OK + MB_ICONINFORMATION);
+end;
+
+procedure ShowAbout;
+begin
+  Application.MessageBox(PChar(S_ABOUT_TEXT), PChar(ABOUT_TEXT),
+    MB_OK + MB_ICONINFORMATION);
 end;
 
 end.
-

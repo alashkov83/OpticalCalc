@@ -6,7 +6,7 @@
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="Optical Calc v. 2.1"/>
+      <Title Value="Optical Calc v. 2.2"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -37,6 +37,9 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
+      <local>
+        <LaunchingApplication Use="True" PathPlusParams="\usr\bin\wine $(TargetCmdLine)"/>
+      </local>
       <FormatVersion Value="2"/>
       <Modes Count="2">
         <Mode0 Name="default"/>
@@ -52,48 +55,51 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="8">
       <Unit0>
-        <Filename Value="project1.lpr"/>
+        <Filename Value="OpticalCalc.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="unit1.pas"/>
+        <Filename Value="MainUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit1"/>
       </Unit1>
       <Unit2>
-        <Filename Value="unit2.pas"/>
+        <Filename Value="ConvUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="ConvertForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit2"/>
       </Unit2>
       <Unit3>
-        <Filename Value="unit3.pas"/>
+        <Filename Value="SchemaUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="ShowSchemaForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit3"/>
       </Unit3>
       <Unit4>
-        <Filename Value="unit4.pas"/>
+        <Filename Value="DialogsUnit.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Unit4"/>
       </Unit4>
       <Unit5>
-        <Filename Value="unit5.pas"/>
+        <Filename Value="ViewMemoUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="PrevForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit5"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="ConstUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="StringsUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

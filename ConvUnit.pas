@@ -51,7 +51,7 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-unit Unit2;
+unit ConvUnit;
 
 {$mode objfpc}{$H+}
 
@@ -69,9 +69,11 @@ uses
   Math,
   LCLType,
   Spin,
-  Unit3,
-  Unit5,
-  Unit4;
+  SchemaUnit,
+  DialogsUnit,
+  ViewMemoUnit,
+  ConstUnit,
+  StringsUnit;
 
 type
   XYList = ^TXYList;
@@ -92,6 +94,7 @@ type
     Label8: TLabel;
     Label9: TLabel;
     DigXSEdt: TSpinEdit;
+    FNMemo: TMemo;
     MenuItem7: TMenuItem;
     PrecXSEdt: TSpinEdit;
     PrecYSEdt: TSpinEdit;
@@ -160,9 +163,6 @@ type
 
   EStrToFloutException = class(Exception);
 
-const
-  hc: extended = 1239.841984;
-
 implementation
 
 {$R *.lfm}
@@ -182,15 +182,18 @@ begin
   SvFileDlg.InitialDir := GetCurrentDir;
   XCBox.ItemIndex := 0;
   YCBox.ItemIndex := 0;
+  FNMemo.Clear;
+  FNMemo.Append(FInName);
   ChangeFormatParams(nil);
   if FInName <> '' then
   begin
     if parseFile(FInName, InList, CSVheader, InMesX, InMesY) <> 0 then
     begin
-      ShowError('Ошибка разбора файла: ' + FInName);
+      ShowError(ERR_PARSING_TEXT + FInName);
       CSVheader := '';
       InMesX := 0;
       InMesY := 0;
+      FNMemo.Clear;
       clearList(InList);
     end;
   end;
@@ -211,12 +214,15 @@ begin
   begin
     FInName := OpnFileDlg.Filename;
     clearList(InList);
+    FNMemo.Clear;
+    FNMemo.Append(FInName);
     if parseFile(FInName, InList, CSVheader, InMesX, InMesY) <> 0 then
     begin
-      ShowError('Ошибка разбора файла: ' + FInName);
+      ShowError(ERR_PARSING_TEXT + FInName);
       CSVheader := '';
       InMesX := 0;
       InMesY := 0;
+      FNMemo.Clear;
       clearList(InList);
     end;
     showMessure(InMesX, InMesY);
@@ -239,11 +245,8 @@ var
   showshchema: TShowSchemaForm;
 begin
   showshchema := TShowSchemaForm.Create(Self);
-  showshchema.Caption := 'Операции конвертации';
-  showshchema.SLabel.Caption :=
-    '                  /-> F(R)' + #10 + 'Abs <-> %T = %R <-' + #10 +
-    '                  \-> Absolute_%R';
-
+  showshchema.Caption := CONV_HELP_CAP_TEXT;
+  showshchema.SLabel.Caption := CONV_SCHEMA_TEXT;
   showshchema.ShowModal;
   showshchema.Free; //иначе будет утечка памяти
 end;
@@ -254,9 +257,8 @@ var
   s: string;
 
 begin
-  s :=
-    'Общий - форматирует число в соответствии с фиксированной или экспоненциальной нотацией:' + #10 + 'по возможности применяется фиксированная нотация. Ведущие нули удаляются,' + #10 + 'и если перед десятичной точкой нет цифр, символ разделителя также удаляется.' + #10 + 'Формат экспоненты используется, если мантисса числа является слишком большой' + #10 + 'для указанного параметра "Точность" или число < 0.00001. В этом случае, параметр "Разряды"' + #10 + 'определяет минимальное число показываемых цифр экспоненты.' + #10 + #10 + 'Фиксированный - число форматируется в соответствии с фиксированной десятичной нотацией.' + #10 + 'Как минимум одна цифра всегда присутствует перед десятичным разделителем.' + #10 + 'Отображает кол-во цифр перед десятичной точкой, задаётся параметром "Точность",' + #10 + 'а после точки - параметром "Разряды". Если слева от десятичного разделителя требуется' + #10 + 'более чем "Точность" цифр, формат автоматически меняется на экспоненциальный.' + #10 + #10 + 'Экспонента - форматирует число в соответствии с научной нотацией.' + #10 + 'Всегда присутствует минимум одна цифра перед десятичным разделителем,' + #10 + 'параметр "Точность" определяет общее число форматируемых цифр мантиссы.' + #10 + 'Параметр "Разряды" определяет минимальное количество цифр в экспоненте (1-4).' + #10 + 'Экспонента всегда начинается со знака "плюс" или "минус".';
-  formathelp := TPrevForm.Create(Self, 'Формат чисел', s);
+  s := FORMAT_HELP_TEXT;
+  formathelp := TPrevForm.Create(Self, FORMAT_HELP_CAP_TEXT, s);
   formathelp.ShowModal;
   formathelp.Free; //иначе будет утечка памяти
 end;
@@ -270,7 +272,7 @@ begin
   outmesy := 0;
   if InList = nil then
   begin
-    ShowError('Cписок входных данных пуст!');
+    ShowError(EMPTY_LIST_TEXT);
   end
   else
   begin
@@ -278,11 +280,11 @@ begin
     checkRadioBtn(outmesx, outmesy);
     if (convertMes(InMesX, InMesY, outmesx, outmesy, 0) = 0) then
     begin
-      ShowInfo('Преобразование прошло успешно!');
+      ShowInfo(SUCCESS_CONV_TEXT);
     end
     else
     begin
-      ShowWarning('Во время преобразования были ошибки!');
+      ShowWarning(WARN_CONV_TEXT);
     end;
     SvFileDlg.Filename := FInName;
     if SvFileDlg.Execute then
@@ -290,8 +292,7 @@ begin
       if writeCSVFile(CSVHeader, InMesX, InMesY, outmesx, outmesy,
         OutList, SvFileDlg.Filename, nil) = 0 then
       begin
-        ShowInfo('Файл ' + SvFileDlg.Filename +
-          ' успешно сохранён!');
+        ShowInfo(FILE_TEXT + ' ' + SvFileDlg.Filename + ' ' + SUC_SAVE_TEXT);
       end;
     end;
   end;
@@ -308,22 +309,21 @@ begin
   outmesy := 0;
   if InList = nil then
   begin
-    ShowError('Cписок входных данных пуст!');
+    ShowError(EMPTY_LIST_TEXT);
   end
   else
   begin
     clearList(OutList);
     checkRadioBtn(outmesx, outmesy);
     if (convertMes(InMesX, InMesY, outmesx, outmesy, 10) <> 0) then
-      ShowWarning('Во время преобразования были ошибки!');
+      ShowWarning(WARN_CONV_TEXT);
     mstream := TMemoryStream.Create;
     if mstream <> nil then
     begin
       if writeCSVFile(CSVHeader, InMesX, InMesY, outmesx, outmesy,
         OutList, '', mstream) = 0 then
       begin
-        showprev := TPrevForm.Create(Self,
-          'Предварительный просмотр', mstream);
+        showprev := TPrevForm.Create(Self, PREVIEW_TEXT, mstream);
         showprev.ShowModal;
         showprev.Free; //иначе будет утечка памяти
       end;
@@ -611,6 +611,46 @@ begin
   PrecYSEdt.Value := precy;
   DigXSEdt.Value := digx;
   DigYSEdt.Value := digy;
+  case formatx of
+    0:
+    begin
+      XCBox.Hint := FMT_GEN_HINT_TEXT;
+      PrecXSEdt.Hint := PREC_EXP_HINT_TEXT;
+      DigXSEdt.Hint := DIG_EXP_HINT_TEXT;
+    end;
+    1:
+    begin
+      XCBox.Hint := FMT_FIX_HINT_TEXT;
+      PrecXSEdt.Hint := PREC_FIX_HINT_TEXT;
+      DigXSEdt.Hint := DIG_FIX_HINT_TEXT;
+    end;
+    2:
+    begin
+      XCBox.Hint := FMT_EXP_HINT_TEXT;
+      PrecXSEdt.Hint := PREC_EXP_HINT_TEXT;
+      DigXSEdt.Hint := DIG_EXP_HINT_TEXT;
+    end;
+  end;
+  case formaty of
+    0:
+    begin
+      YCBox.Hint := FMT_GEN_HINT_TEXT;
+      PrecYSEdt.Hint := PREC_EXP_HINT_TEXT;
+      DigYSEdt.Hint := DIG_EXP_HINT_TEXT;
+    end;
+    1:
+    begin
+      YCBox.Hint := FMT_FIX_HINT_TEXT;
+      PrecYSEdt.Hint := PREC_FIX_HINT_TEXT;
+      DigYSEdt.Hint := DIG_FIX_HINT_TEXT;
+    end;
+    2:
+    begin
+      YCBox.Hint := FMT_EXP_HINT_TEXT;
+      PrecYSEdt.Hint := PREC_EXP_HINT_TEXT;
+      DigYSEdt.Hint := DIG_EXP_HINT_TEXT;
+    end;
+  end;
   if formatx = 2 then
     DigXSEdt.MaxValue := 4
   else
@@ -714,16 +754,14 @@ begin
             flag := 1;
             Val(str, x, err);
             if err <> 0 then
-              raise EStrToFloutException.Create(
-                'Ошибка преобразования строки:' + str);
+              raise EStrToFloutException.Create(ERR_CONV_LINE_TEXT + str);
           end
           else if Parser.CurrentCol = 1 then
           begin
             flag := 2;
             Val(str, y, err);
             if err <> 0 then
-              raise EStrToFloutException.Create(
-                'Ошибка преобразования строки:' + str);
+              raise EStrToFloutException.Create(ERR_CONV_LINE_TEXT + str);
           end
           else
           begin
@@ -814,9 +852,6 @@ begin
 end;
 
 procedure TConvertForm.showMessure(mesx, mesy: byte);
-var
-  xmes: array[1..4] of string = ('нм', 'см^-1', 'eV', 'мин');
-  ymes: array[1..5] of string = ('T,%', 'D или Abs', 'R,%', 'F(R)', 'Absolute R, %');
 begin
   if mesx = 0 then
     InMesXFld.Text := 'Unknown'
@@ -1130,9 +1165,6 @@ var
   s: string;
   tmplist: XYList;
   x, y: extended;
-  xmes: array[1..4] of string = ('Wavelength (nm)', 'Wavenumber (cm-1)',
-    'Energy (eV)', 'Time (min)');
-  ymes: array[1..5] of string = ('%T', 'Abs', '%R', 'F(R)', 'Absolute %R');
 begin
   tmplist := list;
   if outmesx = 0 then

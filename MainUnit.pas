@@ -51,7 +51,7 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-unit Unit1;
+unit MainUnit;
 
 {$mode objfpc}{$H+}
 
@@ -63,21 +63,27 @@ uses
   {$ENDIF}
   Classes,
   SysUtils,
+  FMTBcd,
   Forms,
   Dialogs,
   Menus,
   StdCtrls,
   Math,
-  Unit2,
-  Unit4,
   Controls,
-  LCLtype;
+  LCLtype, ExtCtrls,
+  ConvUnit,
+  DialogsUnit,
+  ConstUnit,
+  StringsUnit;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
+    Bevel1: TBevel;
+    Bevel2: TBevel;
+    Bevel3: TBevel;
     Label18: TLabel;
     step_calcBut: TButton;
     startTEd: TEdit;
@@ -145,11 +151,6 @@ type
 
   end;
 
-const
-  hc = 1239.841984;
-  nu_1 = 3450.0;
-  nu_2 = 1645.0;
-
 var
   MainForm: TMainForm;
 
@@ -168,7 +169,7 @@ begin
     Val(evTEd.Text, ev, err)
   else
   begin
-    ShowError('Не введено значение!');
+    ShowError(NO_ENTER_VALUE_TEXT);
     exit;
   end;
   if err = 0 then
@@ -179,10 +180,10 @@ begin
       lambdaTEd.Text := s;
     end
     else
-      ShowWarning('Введите число > 0!');
+      ShowWarning(WARN_BELLOW_ZERO_TEXT);
   end
   else
-    ShowError('Введите число! Ошибка: ' + evTEd.Text[err]);
+    ShowError(ENT_NUMBER_ERR_TEXT + evTEd.Text[err]);
 end;
 
 procedure TMainForm.convertMIClick(Sender: TObject);
@@ -216,7 +217,7 @@ begin
     Val(lambdaTEd.Text, nm, err)
   else
   begin
-    ShowError('Не введено значение!');
+    ShowError(NO_ENTER_VALUE_TEXT);
     exit;
   end;
   if err = 0 then
@@ -229,10 +230,10 @@ begin
       cmTEd.Text := s;
     end
     else
-      ShowWarning('Введите число > 0!');
+      ShowWarning(WARN_BELLOW_ZERO_TEXT);
   end
   else
-    ShowError('Введите число! Ошибка: ' + lambdaTEd.Text[err]);
+    ShowError(ENT_NUMBER_ERR_TEXT + lambdaTEd.Text[err]);
 end;
 
 
@@ -247,7 +248,7 @@ begin
     Val(cmTEd.Text, cm, err)
   else
   begin
-    ShowError('Не введено значение!');
+    ShowError(NO_ENTER_VALUE_TEXT);
     exit;
   end;
   if err = 0 then
@@ -258,10 +259,10 @@ begin
       lambdaTEd.Text := s;
     end
     else
-      ShowWarning('Введите число > 0!');
+      ShowWarning(WARN_BELLOW_ZERO_TEXT);
   end
   else
-    ShowError('Введите число! Ошибка: ' + cmTEd.Text[err]);
+    ShowError(ENT_NUMBER_ERR_TEXT + cmTEd.Text[err]);
 end;
 
 
@@ -276,7 +277,7 @@ begin
     Val(AbsTEd.Text, D, err)
   else
   begin
-    ShowError('Не введено значение!');
+    ShowError(NO_ENTER_VALUE_TEXT);
     exit;
   end;
   if err = 0 then
@@ -287,10 +288,10 @@ begin
       TTEd.Text := s;
     end
     else
-      ShowWarning('Введите число в диапазоне 0-10!');
+      ShowWarning(ENT_NUMBER_IN_RANGE_TEXT + RANGE_1_10_TEXT);
   end
   else
-    ShowError('Введите число! Ошибка: ' + AbsTEd.Text[err]);
+    ShowError(ENT_NUMBER_ERR_TEXT + AbsTEd.Text[err]);
 end;
 
 procedure TMainForm.lambdaTEdKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -347,7 +348,7 @@ begin
     Val(lambda_exTEd.Text, lambda, err)
   else
   begin
-    ShowError('Не введено значение!');
+    ShowError(NO_ENTER_VALUE_TEXT);
     exit;
   end;
   if err = 0 then
@@ -360,10 +361,10 @@ begin
       lambda_max2TEd.Text := s;
     end
     else
-      ShowWarning('Введите число в диапазоне 190-2898!');
+      ShowWarning(ENT_NUMBER_IN_RANGE_TEXT + RANGE_190_2898_TEXT);
   end
   else
-    ShowError('Введите число! Ошибка: ' + lambda_exTEd.Text[err]);
+    ShowError(ENT_NUMBER_ERR_TEXT + lambda_exTEd.Text[err]);
 end;
 
 procedure TMainForm.aboutMIClick(Sender: TObject);
@@ -378,42 +379,60 @@ end;
 
 procedure TMainForm.step_calcButClick(Sender: TObject);
 var
-  err1, err2, err3: integer;
-  start, stop, step: currency;
+  err1, err2, err3: boolean;
+  start, stop, step, diff: TBcd;
+  diff_c, step_c, tmp_c: currency;
+  sc1, sc2, scale, i: integer;
   s: string;
 begin
   if (startTEd.Text <> '') and (stopTEd.Text <> '') and (stepTEd.Text <> '') then
   begin
-    Val(startTEd.Text, start, err1);
-    Val(stopTEd.Text, stop, err2);
-    Val(stepTEd.Text, step, err3);
-  end
-  else
-  begin
-    ShowError('Не введено одно или несколько значений!');
-    exit;
-  end;
-  if (err1 = 0) and (err2 = 0) and (err3 = 0) then
-  begin
-    if step = 0.0 then
-      ShowError('Шаг равен нулю')
+    err1 := TryStrToBcd(startTEd.Text, start);
+    err2 := TryStrToBcd(stopTEd.Text, stop);
+    err3 := TryStrToBcd(stepTEd.Text, step);
+    if err1 and err2 and err3 then
+    begin
+      if BcdCompare(step, StrToBcd('0')) = 0 then
+        ShowError(ZERO_STEP_ERR_TEXT)
+      else
+      begin
+        BcdSubtract(stop, start, diff);
+        sc1 := BCDScale(start);
+        sc2 := BCDScale(diff);
+        if sc1 > sc2 then
+          scale := sc1
+        else
+          scale := sc2;
+        for i := 1 to scale do
+          BcdMultiply(step, '10', step);
+        for i := 1 to scale do
+          BcdMultiply(diff, '10', diff);
+        BCDToCurr(diff, diff_c);
+        BCDToCurr(step, step_c);
+        tmp_c := trunc(diff_c / step_c);
+        if tmp_c < 0 then
+          ShowError(INC_DATA_TEXT)
+        else
+        begin
+          Str((tmp_c + 1): 0: 0, s);
+          num_stepTEd.Text := s;
+        end;
+      end;
+    end
     else
     begin
-      Str(trunc(abs(stop - start) / step) + 1, s);
-      num_stepTEd.Text := s;
+      s := INC_ENTER_FOR_TEXT + #10;
+      if (not err1) then
+        s += START_TEXT + #10;
+      if (not err2) then
+        s += STOP_TEXT + #10;
+      if (not err3) then
+        s += STEP_TEXT + #10;
+      ShowError(s);
     end;
   end
   else
-  begin
-    s := 'Неправильный ввод для:' + #10;
-    if err1 <> 0 then
-      s += 'Старт' + #10;
-    if err2 <> 0 then
-      s += 'Стоп' + #10;
-    if err3 <> 0 then
-      s += 'Шаг' + #10;
-    ShowError(s);
-  end;
+    ShowError(NO_ENTER_VALUES_TEXT);
 end;
 
 procedure TMainForm.TEditOnChange(Sender: TObject);
@@ -444,7 +463,7 @@ begin
     Val(TTEd.Text, T, err)
   else
   begin
-    ShowError('Не введено значение!');
+    ShowError(NO_ENTER_VALUE_TEXT);
     exit;
   end;
   if err = 0 then
@@ -460,14 +479,15 @@ begin
     end
     else if (T = 0.0) then
     begin
+      ShowWarning(WARN_CONV_TEXT);
       Str(99.0: 0: 5, s);
       AbsTEd.Text := s;
     end
     else
-      ShowWarning('Введите число >= 0!');
+      ShowWarning(WARN_BELLOW_EQ_ZERO_TEXT);
   end
   else
-    ShowError('Введите число! Ошибка: ' + TTEd.Text[err]);
+    ShowError(ENT_NUMBER_ERR_TEXT + TTEd.Text[err]);
 end;
 
 function TMainForm.calc_lambda_nu(lambda: extended; nu: extended): extended;

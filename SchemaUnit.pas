@@ -51,50 +51,41 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 
-unit Unit4;
+unit SchemaUnit;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Forms,
   Classes,
-  StdCtrls,
-  LCLType;
+  Forms,
+  StdCtrls;
 
-var
-  s_about: string = 'Optical Calc v. 2.1' + #10 +
-    '©2020-2021 Лашков А., Набатов Б.' + #10 +
-    'Для разработки использована среда Lazarus и Free Pascal Compiler version 3.0';
+type
 
-procedure ShowError(message: string);
-procedure ShowWarning(message: string);
-procedure ShowInfo(message: string);
-procedure ShowAbout;
+  { TShowSchemaForm }
+
+  TShowSchemaForm = class(TForm)
+    CloseBut: TButton;
+    SLabel: TLabel;
+    procedure CloseButClick(Sender: TObject);
+  private
+
+  public
+
+  end;
 
 implementation
 
-procedure ShowError(message: string);
-begin
-  Application.MessageBox(PChar(message), 'Ошибка!', MB_OK + MB_ICONERROR);
-end;
+{$R *.lfm}
 
-procedure ShowWarning(message: string);
-begin
-  Application.MessageBox(PChar(message), 'Внимание!', MB_OK + MB_ICONWARNING);
-end;
+{ TShowSchemaForm }
 
-procedure ShowInfo(message: string);
+procedure TShowSchemaForm.CloseButClick(Sender: TObject);
 begin
-  Application.MessageBox(PChar(message), 'Информация',
-    MB_OK + MB_ICONINFORMATION);
-end;
-
-procedure ShowAbout;
-begin
-  Application.MessageBox(PChar(s_about), 'О программе',
-    MB_OK + MB_ICONINFORMATION);
+  Close;
 end;
 
 end.
+

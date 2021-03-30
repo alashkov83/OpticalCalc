@@ -1,7 +1,7 @@
 object ConvertForm: TConvertForm
-  Left = 2400
+  Left = 2352
   Height = 398
-  Top = 237
+  Top = 224
   Width = 352
   BorderStyle = bsSingle
   Caption = 'Конвертер данных в файлах *.csv'

@@ -60,15 +60,16 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   Forms,
   Interfaces,
   SysUtils,
-  MainUnit;
+  MainUnit,
+  StringsUnit;
 
 {$R *.res}
 
 begin
   DefaultFormatSettings.DecimalSeparator := '.';
   RequireDerivedFormResource := True;
-  Application.Title:='Optical Calc v. 2.2';
   Application.Scaled := True;
+  Application.Title := APP_NAME_TEXT;
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
   Application.Run;

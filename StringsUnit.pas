@@ -117,7 +117,7 @@ STOP_TEXT := 'Cтоп';
 STEP_TEXT := 'Шаг';
 WARN_BELLOW_EQ_ZERO_TEXT := 'Введите число >= 0!';
 ABOUT_TEXT := 'О программе';
-S_ABOUT_TEXT := 'Optical Calc v. 2.1' + #10 +
+S_ABOUT_TEXT := APP_NAME_TEXT + #10 +
               '©2020-2021 Лашков А., Набатов Б.' + #10 +
               'Для разработки использована среда Lazarus и Free Pascal Compiler version 3.0';
 ERR_TEXT := 'Ошибка!';

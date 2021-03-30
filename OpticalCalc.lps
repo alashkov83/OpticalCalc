@@ -157,8 +157,8 @@
         <Filename Value="OpticalCalc.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="38"/>
-        <CursorPos X="55" Y="67"/>
+        <TopLine Value="39"/>
+        <CursorPos Y="60"/>
         <UsageCount Value="205"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -168,12 +168,12 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="458"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="442"/>
         <CursorPos X="60" Y="462"/>
         <UsageCount Value="205"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="ConvUnit.pas"/>
@@ -181,7 +181,7 @@
         <ComponentName Value="ConvertForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="481"/>
+        <TopLine Value="519"/>
         <CursorPos X="76" Y="519"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -201,7 +201,7 @@
         <Filename Value="DialogsUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="56"/>
+        <TopLine Value="57"/>
         <CursorPos X="52" Y="86"/>
         <UsageCount Value="173"/>
         <Loaded Value="True"/>
@@ -212,9 +212,12 @@
         <ComponentName Value="PrevForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
         <CursorPos X="11" Y="12"/>
         <UsageCount Value="108"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="ConstUnit.pas"/>
@@ -228,8 +231,8 @@
         <Filename Value="StringsUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="100"/>
-        <CursorPos X="130" Y="139"/>
+        <TopLine Value="73"/>
+        <CursorPos Y="104"/>
         <UsageCount Value="79"/>
         <Loaded Value="True"/>
       </Unit7>

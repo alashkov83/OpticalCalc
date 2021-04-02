@@ -72,8 +72,8 @@ uses
   SchemaUnit,
   DialogsUnit,
   ViewMemoUnit,
-  ConstUnit,
-  StringsUnit;
+  StringsUnit,
+  ConstUnit;
 
 type
   XYList = ^TXYList;
@@ -81,6 +81,7 @@ type
   TXYList = record
     X: extended;
     Y: extended;
+    index: QWord;
     Next: XYList;
   end;
 
@@ -182,8 +183,8 @@ begin
   SvFileDlg.InitialDir := GetCurrentDir;
   XCBox.ItemIndex := 0;
   YCBox.ItemIndex := 0;
-  FNMemo.Clear;
-  FNMemo.Append(FInName);
+  FNMemo.Lines.Clear;
+  FNMemo.Lines.Add(FInName);
   ChangeFormatParams(nil);
   if FInName <> '' then
   begin
@@ -193,7 +194,7 @@ begin
       CSVheader := '';
       InMesX := 0;
       InMesY := 0;
-      FNMemo.Clear;
+      FNMemo.Lines.Clear;
       clearList(InList);
     end;
   end;
@@ -214,15 +215,17 @@ begin
   begin
     FInName := OpnFileDlg.Filename;
     clearList(InList);
-    FNMemo.Clear;
-    FNMemo.Append(FInName);
+    FNMemo.Lines.Clear;
+    FNMemo.Lines.Add(FInName);
+    FNMemo.SelStart := 0;
+    FNMemo.ReadOnly := true;
     if parseFile(FInName, InList, CSVheader, InMesX, InMesY) <> 0 then
     begin
       ShowError(ERR_PARSING_TEXT + FInName);
       CSVheader := '';
       InMesX := 0;
       InMesY := 0;
-      FNMemo.Clear;
+      FNMemo.Lines.Clear;
       clearList(InList);
     end;
     showMessure(InMesX, InMesY);
@@ -668,6 +671,7 @@ begin
   New(tmp);
   tmp^.X := x;
   tmp^.Y := y;
+  if list = nil then tmp^.index := 1 else tmp^.index := list^.index + 1;
   tmp^.Next := list;
   list := tmp;
 end;
@@ -867,14 +871,13 @@ function TConvertForm.convertMes(mesx, mesy, outmesx, outmesy: byte;
   nstep: integer): byte;
 var
   err: byte;
-  i: integer;
   xin, yin, xout, yout: double;
   tmplist: XYList;
 begin
-  i := 0;
   err := 0;
   tmplist := InList;
-  while (tmplist <> nil) and ((nstep = 0) or ((nstep <> 0) and (i < nstep))) do
+  if (tmplist <> nil) and (nstep <> 0) then while tmplist^.index > nstep do tmplist := tmplist^.Next;
+  while tmplist <> nil do
   begin
     xin := tmplist^.X;
     yin := tmplist^.Y;
@@ -1126,7 +1129,6 @@ begin
     end;
     addElemList(OutList, xout, yout);
     tmplist := tmplist^.Next;
-    Inc(i);
   end;
   Result := err;
 end;

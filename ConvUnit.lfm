@@ -399,6 +399,7 @@ object ConvertForm: TConvertForm
     ScrollBars = ssHorizontal
     ShowHint = True
     TabOrder = 14
+    WantReturns = False
     WordWrap = False
   end
   object SvFileDlg: TSaveDialog

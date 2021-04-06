@@ -169,8 +169,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="189"/>
-        <CursorPos X="3" Y="194"/>
+        <TopLine Value="193"/>
+        <CursorPos X="3" Y="74"/>
         <UsageCount Value="205"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -182,8 +182,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="859"/>
-        <CursorPos X="39" Y="879"/>
+        <TopLine Value="855"/>
+        <CursorPos X="29" Y="1238"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -196,7 +196,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="47" Y="58"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="84"/>
       </Unit3>
       <Unit4>
         <Filename Value="DialogsUnit.pas"/>
@@ -204,7 +204,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="56"/>
         <CursorPos X="52" Y="86"/>
-        <UsageCount Value="177"/>
+        <UsageCount Value="178"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -214,8 +214,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
+        <TopLine Value="35"/>
         <CursorPos X="11" Y="12"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="113"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit5>
@@ -224,16 +225,16 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="5" Y="17"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="84"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="StringsUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="43"/>
+        <TopLine Value="125"/>
         <CursorPos X="55" Y="164"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="84"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
@@ -429,15 +430,4 @@
       <Modes Count="0" ActiveMode="default"/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints Count="1">
-      <Item1>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ConvUnit.pas"/>
-        <Line Value="276"/>
-      </Item1>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

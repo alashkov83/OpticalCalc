@@ -251,7 +251,7 @@ begin
   showshchema.Caption := CONV_HELP_CAP_TEXT;
   showshchema.SLabel.Caption := CONV_SCHEMA_TEXT;
   showshchema.ShowModal;
-  showshchema.Free; //иначе будет утечка памяти
+  FreeAndNil(showshchema); //иначе будет утечка памяти
 end;
 
 procedure TConvertForm.MenuItem7Click(Sender: TObject);
@@ -263,7 +263,7 @@ begin
   s := FORMAT_HELP_TEXT;
   formathelp := TPrevForm.Create(Self, FORMAT_HELP_CAP_TEXT, s);
   formathelp.ShowModal;
-  formathelp.Free; //иначе будет утечка памяти
+  FreeAndNIl(formathelp); //иначе будет утечка памяти
 end;
 
 
@@ -328,9 +328,9 @@ begin
       begin
         showprev := TPrevForm.Create(Self, PREVIEW_TEXT, mstream);
         showprev.ShowModal;
-        showprev.Free; //иначе будет утечка памяти
+        FreeAndNIl(showprev); //иначе будет утечка памяти
       end;
-      mstream.Free;
+      FreeAndNil(mstream);
     end;
   end;
 end;
@@ -784,8 +784,8 @@ begin
       end;
     end;
   finally
-    FileStream.Free;
-    Parser.Free;
+    FreeAndNil(FileStream);
+    FreeAndNil(Parser);
   end;
 end;
 
@@ -1233,9 +1233,9 @@ begin
       end;
     end;
   finally
-    Builder.Free;
+    FreeAndNil(Builder);
     if mstream = nil then
-      FileStream.Free;
+      FreeAndNil(FileStream);
   end;
 end;
 

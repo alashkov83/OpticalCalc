@@ -446,11 +446,18 @@ begin
   s := edit.Text;
   posit := pos('_', s);
   if posit <> 0 then
+  begin
     s := StringReplace(s, '_', '.', [rfReplaceAll, rfIgnoreCase]);
+    edit.Text := s;
+    edit.SelStart := Length(edit.Text);
+  end;
   posit := pos(',', s);
   if posit <> 0 then
+  begin
     s := StringReplace(s, ',', '.', [rfReplaceAll, rfIgnoreCase]);
-  edit.Text := s;
+    edit.Text := s;
+    edit.SelStart := Length(edit.Text);
+  end;
 end;
 
 procedure TMainForm.T_to_DButClick(Sender: TObject);

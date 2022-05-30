@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="11"/>
-    <BuildModes Count="3" Active="Debug">
+    <BuildModes Count="3" Active="win32">
       <Item1 Name="Release">
         <CompilerOptions>
           <Version Value="11"/>
@@ -157,7 +157,7 @@
         <Filename Value="OpticalCalc.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="38"/>
+        <TopLine Value="39"/>
         <CursorPos Y="60"/>
         <UsageCount Value="205"/>
         <Loaded Value="True"/>
@@ -169,8 +169,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="193"/>
-        <CursorPos X="3" Y="74"/>
+        <TopLine Value="19"/>
+        <CursorPos X="35" Y="456"/>
         <UsageCount Value="205"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -182,8 +182,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="855"/>
-        <CursorPos X="29" Y="1238"/>
+        <TopLine Value="161"/>
+        <CursorPos X="64" Y="198"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -202,7 +202,7 @@
         <Filename Value="DialogsUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="56"/>
+        <TopLine Value="9"/>
         <CursorPos X="52" Y="86"/>
         <UsageCount Value="178"/>
         <Loaded Value="True"/>
@@ -224,7 +224,7 @@
         <Filename Value="ConstUnit.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="5" Y="17"/>
+        <CursorPos X="22" Y="8"/>
         <UsageCount Value="84"/>
         <Loaded Value="True"/>
       </Unit6>
@@ -427,7 +427,7 @@
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode="default"/>
+      <Modes Count="0" ActiveMode="Wine"/>
     </RunParams>
   </ProjectSession>
 </CONFIG>

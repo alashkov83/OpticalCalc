@@ -41,6 +41,9 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
+      <local>
+        <LaunchingApplication Use="True" PathPlusParams="\usr\bin\wine $(TargetCmdLine)"/>
+      </local>
       <FormatVersion Value="2"/>
       <Modes Count="2">
         <Mode0 Name="default"/>
